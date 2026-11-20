@@ -15,7 +15,7 @@
 
 **UniAttend AI** automates roll-call attendance directly on university faculty portals (including legacy JSF/PrimeFaces, HTML tables, React/Vue apps, and iframes). It reads each student's name aloud in native Arabic or English, listens for verbal confirmation, updates the portal's checkboxes automatically, and advances down the roster.
 
-![UniAttend AI Demo](assets/screenshot.png)
+![UniAttend AI Demo](assets/Hud.png)
 
 ## Key Features
 
