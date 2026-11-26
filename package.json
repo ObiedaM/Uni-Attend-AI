@@ -1,0 +1,41 @@
+{
+  "name": "uni-attend-ai",
+  "version": "2.1.0",
+  "description": "Fast, private bilingual (AR/EN) voice attendance Chrome/Edge extension with native TTS, hardware mic-mute guard, and universal portal support.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --watch",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --no-error-on-unmatched-pattern src scripts tests *.config.*",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "package": "node scripts/package.mjs"
+  },
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "attendance",
+    "speech-recognition",
+    "arabic",
+    "tts"
+  ],
+  "author": "Obieda Hassouneh",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@playwright/test": "^1.51.0",
+    "@types/chrome": "^0.0.305",
+    "@types/node": "^22.13.0",
+    "esbuild": "^0.28.0",
+    "eslint": "^9.20.0",
+    "globals": "^15.15.0",
+    "jsdom": "^26.0.0",
+    "jszip": "^3.10.1",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.24.0",
+    "vitest": "^5.1.2"
+  }
+}

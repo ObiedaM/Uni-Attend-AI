@@ -1,25 +1,35 @@
 {
   "manifest_version": 3,
   "name": "UniAttend AI — Smart Voice Attendance",
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "minimum_chrome_version": "116",
   "description": "Fast, private bilingual (AR/EN) voice attendance with native TTS, hardware mic-mute guard, and universal portal support. By Obieda.M",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
   "host_permissions": [
     "https://translate.googleapis.com/*"
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  },
   "background": {
     "service_worker": "background.js"
   },
   "icons": {
-    "16": "logo.png",
-    "48": "logo.png",
-    "128": "logo.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "action": {
     "default_icon": {
-      "16": "logo.png",
-      "48": "logo.png",
-      "128": "logo.png"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     },
     "default_title": "Open / Close UniAttend AI (Alt+A)"
   },

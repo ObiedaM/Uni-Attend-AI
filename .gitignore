@@ -3,6 +3,16 @@
 Thumbs.db
 desktop.ini
 
+# Dependencies & build outputs
+node_modules/
+dist/
+release/
+
+# Test artifacts
+playwright-report/
+test-results/
+coverage/
+
 # Archives / packaged builds
 *.zip
 *.crx

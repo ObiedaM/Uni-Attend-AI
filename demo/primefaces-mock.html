@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>University Portal Mock — PrimeFaces + Iframe Fixture</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 24px;
+    }
+    .panel {
+      max-width: 860px;
+      margin: 0 auto 24px auto;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    h2, h3 { margin: 0 0 12px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      text-align: right;
+    }
+    th { background: #e2e8f0; }
+
+    /* PrimeFaces .ui-chkbox realistic simulation */
+    .ui-chkbox {
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+    }
+    .ui-helper-hidden-accessible {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    .ui-chkbox-box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #475569;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #ffffff;
+      user-select: none;
+    }
+    .ui-chkbox-box.ui-state-active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+    .ui-chkbox-box.ui-state-active::after {
+      content: "✔";
+      font-size: 13px;
+      font-weight: 700;
+    }
+    iframe {
+      width: 100%;
+      height: 220px;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h2>بوابة التسجيل — محاكاة PrimeFaces (JSF DataTable)</h2>
+    <table id="primefacesTable">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAllHeader" aria-label="Select All"></th>
+          <th>الرقم الجامعي</th>
+          <th>اسم الطالب</th>
+          <th>عذر (Excused)</th>
+          <th>غياب (Absent)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-student-row="1">
+          <td>1</td>
+          <td>2025101</td>
+          <td>عبد الرحمن محمد علي</td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="excused-cb" name="excused_1">
+              </div>
+              <div class="ui-chkbox-box" data-col="excused"></div>
+            </div>
+          </td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="absent-cb" name="absent_1">
+              </div>
+              <div class="ui-chkbox-box" data-col="absent"></div>
+            </div>
+          </td>
+        </tr>
+        <tr data-student-row="2">
+          <td>2</td>
+          <td>2025102</td>
+          <td>صلاح الدين الأيوبي حسن</td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="excused-cb" name="excused_2">
+              </div>
+              <div class="ui-chkbox-box" data-col="excused"></div>
+            </div>
+          </td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="absent-cb" name="absent_2">
+              </div>
+              <div class="ui-chkbox-box" data-col="absent"></div>
+            </div>
+          </td>
+        </tr>
+        <tr data-student-row="3">
+          <td>3</td>
+          <td>2025103</td>
+          <td>سارة خالد المنصور</td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="excused-cb" name="excused_3">
+              </div>
+              <div class="ui-chkbox-box" data-col="excused"></div>
+            </div>
+          </td>
+          <td>
+            <div class="ui-chkbox">
+              <div class="ui-helper-hidden-accessible">
+                <input type="checkbox" class="absent-cb" name="absent_3">
+              </div>
+              <div class="ui-chkbox-box" data-col="absent"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>شعبة إضافية داخل Same-Origin Iframe</h3>
+    <iframe id="rosterIframe" title="Same-Origin Attendance Frame"></iframe>
+  </div>
+
+  <script>
+    // Wire realistic PrimeFaces .ui-chkbox-box click behavior
+    document.querySelectorAll(".ui-chkbox").forEach((wrapper) => {
+      const input = wrapper.querySelector('input[type="checkbox"]');
+      const box = wrapper.querySelector(".ui-chkbox-box");
+      if (!input || !box) return;
+
+      const sync = () => box.classList.toggle("ui-state-active", input.checked);
+      box.addEventListener("click", () => {
+        input.checked = !input.checked;
+        sync();
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      input.addEventListener("change", sync);
+    });
+
+    // Populate same-origin iframe roster
+    const frame = document.getElementById("rosterIframe");
+    const frameDoc = frame.contentDocument;
+    frameDoc.open();
+    frameDoc.write(`<!DOCTYPE html>
+      <html lang="ar" dir="rtl">
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 12px; }
+          table { width: 100%; border-collapse: collapse; }
+          td { border: 1px solid #cbd5e1; padding: 8px 10px; }
+          input[type="checkbox"] { width: 18px; height: 18px; }
+        </style>
+      </head>
+      <body>
+        <table id="iframeTable">
+          <tbody>
+            <tr>
+              <td>2025201</td>
+              <td>طارق زياد الشريف</td>
+              <td><input type="checkbox" class="iframe-cb" name="iframe_1"></td>
+            </tr>
+            <tr>
+              <td>2025202</td>
+              <td>دانا سامي العتوم</td>
+              <td><input type="checkbox" class="iframe-cb" name="iframe_2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </body>
+      </html>`);
+    frameDoc.close();
+  </script>
+</body>
+</html>
